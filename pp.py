@@ -6,7 +6,8 @@ uploaded_files = st.file_uploader("Upload Files", accept_multiple_files=True)
 filelist = []
 dict={}
 for i in uploaded_files:
-    dict[i]=i.name
+    #dict[i]=i.name
+    st.write(i)
     
 st.write(dict)
     
