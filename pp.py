@@ -6,10 +6,11 @@ uploaded_files = st.file_uploader("Upload Files", accept_multiple_files=True)
 filelist = []
 
 for file in uploaded_files:
-    filelist.append(file.name)
-selected_file = st.selectbox("Select a file:", filelist)
-df1 = pd.read_excel(selected_file)
-st.write(df1)
+    #filelist.append(file.name)
+    df1 = pd.read_excel(file)
+    st.write(df1)
+#selected_file = st.selectbox("Select a file:", filelist)
+
     
         
         
