@@ -17,10 +17,7 @@ for file in uploaded_files:
     df1 = pd.read_excel(file)
     st.write(df1)
 selected_file = st.selectbox("Select a file:", filelist)
-st.write(selected_file)
-df2 = pd.read_excel(selected_file)
-st.write(df2)
-    
+
         
         
         
