@@ -4,6 +4,12 @@ import pandas as pd
 uploaded_files = st.file_uploader("Upload Files", accept_multiple_files=True)
 
 filelist = []
+dict={}
+for i in uploaded_files:
+    dict[i]=i.name
+    
+st.write(dict)
+    
 
 for file in uploaded_files:
     st.write(file)
