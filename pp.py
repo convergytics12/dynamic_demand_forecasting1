@@ -8,7 +8,7 @@ filelist = []
 for file in uploaded_files:
     filelist.append(file.name)
 selected_file = st.selectbox("Select a file:", filelist)
-df1 = pd.read_excel(str(selected_file))
+df1 = pd.read_excel(selected_file)
 st.write(df1)
     
         
