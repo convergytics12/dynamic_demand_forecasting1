@@ -6,6 +6,7 @@ uploaded_files = st.file_uploader("Upload Files", accept_multiple_files=True)
 filelist = []
 
 for file in uploaded_files:
+    st.write(file)
     filelist.append(file.name)
     df1 = pd.read_excel(file)
     st.write(df1)
