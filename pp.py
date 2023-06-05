@@ -86,7 +86,8 @@ for i in uploaded_files:
                 best_model =arima_mod.fit()  
                 pred = best_model.fittedvalues
                 res=mape(df['Quantity'],pred)
-                dfobj=dfobj.append({'param':param,'mape':res},ignore_index=True)
+                #dfobj=dfobj.append({'param':param,'mape':res},ignore_index=True)
+                dfobj=pd.concat([dfobj,pd.DataFrame({'param':param,'mape':res})]).reset_index(drop=True)
             except:
                 continue
         #SARIMA
@@ -102,21 +103,21 @@ for i in uploaded_files:
                     best_model =mod.fit()   
                     pred = best_model.fittedvalues
                     res=mape(df['Quantity'],pred)
-                    dfobj1 = dfobj1.append({'param':param,'seasonal':param_seasonal ,'mape': res}, ignore_index=True)
+                    #dfobj1 = dfobj1.append({'param':param,'seasonal':param_seasonal ,'mape': res}, ignore_index=True)
+                    dfobj1=pd.concat([dfobj1,pd.DataFrame({'param':[param],'seasonal':[param_seasonal] ,'mape': [res]})]).reset_index(drop=True)
                 except:
                     continue
 
         #TES
 
         for sp in range(2,11,2):
-            try:
-                tes = ExponentialSmoothing(df['Quantity'],trend='additive',seasonal='additive',seasonal_periods=sp,initialization_method='estimated')
-                tes_model = tes.fit()
-                pred = tes_model.fittedvalues
-                res=mape(df['Quantity'],pred)
-                dfobj2 = dfobj2.append({'sp':sp,'mape': res}, ignore_index=True)
-            except:
-                continue
+            tes = ExponentialSmoothing(df['Quantity'],trend='additive',seasonal='additive',seasonal_periods=sp,initialization_method='estimated')
+            tes_model = tes.fit()
+            pred = tes_model.fittedvalues
+            res=mape(df['Quantity'],pred)
+            #dfobj2 = dfobj2.append({'sp':sp,'mape': res}, ignore_index=True)
+            dfobj2=pd.concat([dfobj2,pd.DataFrame({'sp':[sp],'mape':[res]})]).reset_index(drop=True)
+
 
 
         arima_mape = dfobj.sort_values(by=['mape'])[:1]['mape'].to_list()[0]
@@ -225,10 +226,7 @@ for i in uploaded_files:
             fig.add_trace(go.Scatter(x=dff['Date'], y=dff['Forecasted Production'], name='Forecasted Production', line=dict(color='green')))
             st.plotly_chart(fig)
 
-        print(dfobj)
-        print(dfobj1)
-        print(dfobj2)
-        
+ 
 
         
         
