@@ -224,6 +224,10 @@ for i in uploaded_files:
             fig.add_trace(go.Scatter(x=dfp['Date'], y=dfp['Predicted Production'], name='Predicted Production', line=dict(color='orange')))
             fig.add_trace(go.Scatter(x=dff['Date'], y=dff['Forecasted Production'], name='Forecasted Production', line=dict(color='green')))
             st.plotly_chart(fig)
+            
+        print(dfobj)
+        print(dfobj1)
+        print(dfobj2)
         
 
         
