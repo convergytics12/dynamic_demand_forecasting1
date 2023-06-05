@@ -144,7 +144,7 @@ def time_series(df):
     if(largest_variable=='x'):
         arima = ARIMA(df['Quantity'],order=arima_order)
         best_model=arima.fit()
-        print('Arima_MAPE: ',arima_mape)
+        st.write('Arima_MAPE: ',arima_mape)
 
         pred = best_model.fittedvalues
         pred = pred.shift(periods=-1)
@@ -175,7 +175,7 @@ def time_series(df):
         mod = sm.tsa.statespace.SARIMAX(df['Quantity'],order=sarima_order,seasonal_order=sarima_seasonal_order,
                                         enforce_stationarity=False,enforce_invertibility=False)
         best_model =mod.fit()
-        print('Sarima_MAPE: ',sarima_mape)
+        st.write('Sarima_MAPE: ',sarima_mape)
 
         pred = best_model.fittedvalues
         pred = pred.shift(periods=-1)
@@ -207,7 +207,7 @@ def time_series(df):
         tes = ExponentialSmoothing(df['Quantity'],trend='additive',seasonal='additive',seasonal_periods=tes_sp,
                               initialization_method='estimated')
         best_model =tes.fit()  
-        print('TES_MAPE: ',tes_mape)
+        st.write('TES_MAPE: ',tes_mape)
         pred = best_model.fittedvalues
         #pred = pred.shift(periods=-1)
 
