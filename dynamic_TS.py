@@ -234,13 +234,14 @@ def time_series(df):
         st.plotly_chart(fig)
     
 
-start = time.time()
+
 for i in uploaded_files:
     if(i.name==selected_file):
         df1 = pd.read_excel(i)
+        start = time.time()
         time_series(df1)
-end = time.time()
-st.write('time taken:',end-start)
+        end = time.time()
+        st.write('time taken:',end-start)
 
  
 
