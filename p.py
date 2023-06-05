@@ -46,7 +46,7 @@ for file in uploaded_files:
 
 selected_file = st.selectbox("Select a file:", filelist)
 
-
+start = time.time()
 for i in uploaded_files:
     if(i.name==selected_file):
         df1 = pd.read_excel(i)
@@ -225,7 +225,9 @@ for i in uploaded_files:
             fig.add_trace(go.Scatter(x=dfp['Date'], y=dfp['Predicted Production'], name='Predicted Production', line=dict(color='orange')))
             fig.add_trace(go.Scatter(x=dff['Date'], y=dff['Forecasted Production'], name='Forecasted Production', line=dict(color='green')))
             st.plotly_chart(fig)
+end = time.time()
 
+st.write('Time Taken: ',round((end-start)/60,2),' mins or',end-start,' seconds')
  
 
         
