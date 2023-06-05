@@ -43,6 +43,8 @@ filelist = []
 for file in uploaded_files:
 
     filelist.append(file.name)
+    
+filelist.insert(0,'Select an option')
 
 selected_file = st.selectbox("Select a file:", filelist)
 
@@ -82,18 +84,19 @@ for i in uploaded_files:
         st.write(dfobj2)
 
 
-#         #ARIMA
+        #ARIMA
 
-#         for param in pdq:
-#             try:
-#                 arima_mod = ARIMA(df['Quantity'],order=param)
-#                 best_model =arima_mod.fit()  
-#                 pred = best_model.fittedvalues
-#                 res=mape(df['Quantity'],pred)
-#                 #dfobj=dfobj.append({'param':param,'mape':res},ignore_index=True)
-#                 dfobj=pd.concat([dfobj,pd.DataFrame({'param':param,'mape':res})]).reset_index(drop=True)
-#             except:
-#                 continue
+        for param in pdq:
+            try:
+                arima_mod = ARIMA(df['Quantity'],order=param)
+                best_model =arima_mod.fit()  
+                pred = best_model.fittedvalues
+                res=mape(df['Quantity'],pred)
+                #dfobj=dfobj.append({'param':param,'mape':res},ignore_index=True)
+                dfobj=pd.concat([dfobj,pd.DataFrame({'param':param,'mape':res})]).reset_index(drop=True)
+            except:
+                continue
+        st.write('dfobj',dfobj) 
 #         #SARIMA
 
 #         for param in pdq:
