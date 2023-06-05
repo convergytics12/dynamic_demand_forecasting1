@@ -5,8 +5,6 @@ import pandas                             as      pd
 import numpy                              as      np
 import matplotlib.pyplot                  as      plt
 import seaborn                            as      sns
-from   IPython.display                    import  display
-from   pylab                              import  rcParams 
 from   datetime                           import  datetime, timedelta
 from statsmodels.tsa.api import ExponentialSmoothing
 from statsmodels.tsa.stattools            import  adfuller
