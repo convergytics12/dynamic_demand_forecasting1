@@ -56,7 +56,7 @@ filelist.insert(0,'Select an option')
 selected_file = st.selectbox("Select a file:", filelist)
 
 @st.cache(suppress_st_warning=True)
-def time_series(df):
+def time_series(df1):
     fw = df1['FY_Week'] + '-1'
     dt = pd.to_datetime(fw, format='%Y-%W-%w', errors='coerce')
 
