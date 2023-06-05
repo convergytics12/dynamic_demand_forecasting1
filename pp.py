@@ -109,11 +109,14 @@ for i in uploaded_files:
         #TES
 
         for sp in range(2,11,2):
-            tes = ExponentialSmoothing(df['Quantity'],trend='additive',seasonal='additive',seasonal_periods=sp,initialization_method='estimated')
-            tes_model = tes.fit()
-            pred = tes_model.fittedvalues
-            res=mape(df['Quantity'],pred)
-            dfobj2 = dfobj2.append({'sp':sp,'mape': res}, ignore_index=True)
+            try:
+                tes = ExponentialSmoothing(df['Quantity'],trend='additive',seasonal='additive',seasonal_periods=sp,initialization_method='estimated')
+                tes_model = tes.fit()
+                pred = tes_model.fittedvalues
+                res=mape(df['Quantity'],pred)
+                dfobj2 = dfobj2.append({'sp':sp,'mape': res}, ignore_index=True)
+            except:
+                continue
 
 
         arima_mape = dfobj.sort_values(by=['mape'])[:1]['mape'].to_list()[0]
