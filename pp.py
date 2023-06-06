@@ -297,8 +297,8 @@ if rad=='Monthly':
                     best_model =arima_mod.fit()  
                     pred = best_model.fittedvalues
                     res=mape(df['Quantity'],pred)
-                    dfobj=dfobj.append({'param':param,'mape':res},ignore_index=True)
-                    #dfobj=pd.concat([dfobj,pd.DataFrame({'param':param,'mape':res})]).reset_index(drop=True)
+                    #dfobj=dfobj.append({'param':param,'mape':res},ignore_index=True)
+                    dfobj=pd.concat([dfobj,pd.DataFrame({'param':param,'mape':res})]).reset_index(drop=True)
                 except:
                     continue
             #SARIMA
@@ -314,8 +314,8 @@ if rad=='Monthly':
                         best_model =mod.fit()   
                         pred = best_model.fittedvalues
                         res=mape(df['Quantity'],pred)
-                        dfobj1 = dfobj1.append({'param':param,'seasonal':param_seasonal ,'mape': res}, ignore_index=True)
-                        #dfobj1=pd.concat([dfobj1,pd.DataFrame({'param':[param],'seasonal':[param_seasonal] ,'mape': [res]})]).reset_index(drop=True)
+                        #dfobj1 = dfobj1.append({'param':param,'seasonal':param_seasonal ,'mape': res}, ignore_index=True)
+                        dfobj1=pd.concat([dfobj1,pd.DataFrame({'param':[param],'seasonal':[param_seasonal] ,'mape': [res]})]).reset_index(drop=True)
                     except:
                         continue
     
@@ -326,8 +326,8 @@ if rad=='Monthly':
                 tes_model = tes.fit()
                 pred = tes_model.fittedvalues
                 res=mape(df['Quantity'],pred)
-                dfobj2 = dfobj2.append({'sp':sp,'mape': res}, ignore_index=True)
-                #dfobj2=pd.concat([dfobj2,pd.DataFrame({'sp':[sp],'mape':[res]})]).reset_index(drop=True)
+                #dfobj2 = dfobj2.append({'sp':sp,'mape': res}, ignore_index=True)
+                dfobj2=pd.concat([dfobj2,pd.DataFrame({'sp':[sp],'mape':[res]})]).reset_index(drop=True)
     
     
     
