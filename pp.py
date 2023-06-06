@@ -341,8 +341,8 @@ if rad=='Monthly':
     
          
     
-            p = range(0,7)
-            q = range(0,7)
+            p = range(0,5)
+            q = range(0,5)
             result = adfuller(df)
             if(result[1]<0.05):
                 d = range(0,1)
