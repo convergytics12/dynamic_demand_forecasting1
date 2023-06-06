@@ -413,7 +413,10 @@ if rad=='Monthly':
                 dfobj2=pd.concat([dfobj2,pd.DataFrame({'sp':[sp],'mape':[res]})]).reset_index(drop=True)
     
     
-    
+            st.dataframe(dfobj)
+            st.dataframe(dfobj1)
+            st.dataframe(dfobj2)
+            
             arima_mape = dfobj.sort_values(by=['mape'])[:1]['mape'].to_list()[0]
             arima_order = dfobj.sort_values(by=['mape'])[:1]['param'].to_list()[0]
     
