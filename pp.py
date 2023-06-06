@@ -351,9 +351,9 @@ if rad=='Monthly':
     
             pdq = list(itertools.product(p, d, q))
             
-            x = (4,6,12)
+            z = (4,6,12)
     
-            a = [[(x[0],x[1],x[2],m)             for m in x         if(m>x[0]  and m>x[2]) ]       for x in list(pdq)]
+            a = [[(x[0],x[1],x[2],m)             for m in z         if(m>x[0]  and m>x[2]) ]       for x in list(pdq)]
     
             model_pdq = [item for sublist in a for item in sublist]
     
