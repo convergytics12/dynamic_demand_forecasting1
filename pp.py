@@ -94,7 +94,7 @@ if rad=='Weekly':
                     pred = best_model.fittedvalues
                     res=mape(df['Quantity'],pred)
                     #dfobj=dfobj.append({'param':param,'mape':res},ignore_index=True)
-                    dfobj=pd.concat([dfobj,pd.DataFrame({'param':param,'mape':res})]).reset_index(drop=True)
+                    dfobj=pd.concat([dfobj,pd.DataFrame({'param':[param],'mape':[res]})]).reset_index(drop=True)
                 except:
                     continue
             #SARIMA
@@ -300,7 +300,7 @@ if rad=='Monthly':
                     pred = best_model.fittedvalues
                     res=mape(df['Quantity'],pred)
                     #dfobj=dfobj.append({'param':param,'mape':res},ignore_index=True)
-                    dfobj=pd.concat([dfobj,pd.DataFrame({'param':param,'mape':res})]).reset_index(drop=True)
+                    dfobj=pd.concat([dfobj,pd.DataFrame({'param':[param],'mape':[res]})]).reset_index(drop=True)
                 except:
                     continue
             #SARIMA
