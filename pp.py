@@ -139,6 +139,8 @@ if rad=='Weekly':
     
             variables = {'x': arima_mape, 'y': sarima_mape, 'z': tes_mape}
             largest_variable = min(variables, key=variables.get)
+            
+            st.write(arima_order)
     
     
             if(largest_variable=='x'):
@@ -343,6 +345,9 @@ if rad=='Monthly':
     
             variables = {'x': arima_mape, 'y': sarima_mape, 'z': tes_mape}
             largest_variable = min(variables, key=variables.get)
+            
+            
+            st.write(arima_order)
     
     
             if(largest_variable=='x'):
