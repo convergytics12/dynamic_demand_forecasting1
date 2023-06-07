@@ -87,6 +87,7 @@ if rad=='Weekly':
     
             #ARIMA
     
+    
             for param in pdq:
                 try:
                     arima_mod = ARIMA(df['Quantity'],order=param)
@@ -96,8 +97,8 @@ if rad=='Weekly':
                         res=mape(df['Quantity'],pred)
                     elif(d==range(1,2)):
                         pred = best_model.fittedvalues
-                        pred1 = pred.shift(periods=-1)
-                        res=mape(df['Quantity'][:-1],pred1[:-1])
+                        #pred1 = pred.shift(periods=-1)
+                        res=mape(df['Quantity'][1:],pred[1:])
                     #dfobj=dfobj.append({'param':param,'mape':res},ignore_index=True)
                     dfobj=pd.concat([dfobj,pd.DataFrame({'param':[param],'mape':[res]})]).reset_index(drop=True)
                 except:
@@ -113,18 +114,14 @@ if rad=='Weekly':
                                                             enforce_stationarity=False,
                                                             enforce_invertibility=False)
                         best_model =mod.fit()   
-                        if(d==range(0,1)):
-                            pred = best_model.fittedvalues
-                            res=mape(df['Quantity'],pred)
-                        elif(d==range(1,2)):
-                            pred = best_model.fittedvalues
-                            pred1 = pred.shift(periods=-1)
-                            res=mape(df['Quantity'][:-1],pred1[:-1])
-                        #dfobj1 = dfobj1.append({'param':param,'seasonal':param_seasonal ,'mape': res}, ignore_index=True)
+                       
+                        pred = best_model.fittedvalues
+                        #pred1 = pred.shift(periods=-1)
+                        res=mape(df['Quantity'][1:],pred[1:])
+                    #dfobj1 = dfobj1.append({'param':param,'seasonal':param_seasonal ,'mape': res}, ignore_index=True)
                         dfobj1=pd.concat([dfobj1,pd.DataFrame({'param':[param],'seasonal':[param_seasonal] ,'mape': [res]})]).reset_index(drop=True)
                     except:
                         continue
-    
             #TES
     
             for sp in range(2,11,2):
@@ -186,41 +183,8 @@ if rad=='Weekly':
                    
                 elif(d==range(1,2)):
                    pred = best_model.fittedvalues
-                   pred = pred.shift(periods=-1)
-                   res=mape(df['Quantity'][:-1],pred[:-1])
-                   
-    
-                   dfa=df.reset_index()
-                #dfa.rename(columns={'dt':'Date','Quantity':'Actual Production'},inplace=True)
-    
-                   dfp=pd.DataFrame(pred)
-                   dfp=dfp.reset_index()
-                   dfp.rename(columns={0:'Quantity'},inplace=True)
-    
-                   fore=best_model.predict(start=(pd.Series(df.index[-2])[0])+ pd.DateOffset(weeks=1),end=(pd.Series(df.index[-2])[0])+ pd.DateOffset(weeks=4))
-                   fore_df=pd.DataFrame(data=fore.reset_index())
-                   fore_df=fore_df.rename(columns={'index':'dt','predicted_mean':'Quantity'})
-                   a=pd.DataFrame(pred.reset_index().iloc[-2]).T.rename(columns={0:'Quantity'}).reset_index(drop=True)
-                   dff=pd.concat([a,fore_df],ignore_index=True)
-                   dff['dt']=pd.to_datetime(dff['dt'])
-                #dff=dff.set_index(dff['Date'])
-                #dff=dff.drop(['Date'],axis=1)
-    
-                   fig = go.Figure()
-                   fig.add_trace(go.Scatter(x=dfa['dt'], y=dfa['Quantity'], name='Actual Quantity', line=dict(color='blue')))
-                   fig.add_trace(go.Scatter(x=dfp['dt'], y=dfp['Quantity'], name='Prediction', line=dict(color='orange')))
-                   fig.add_trace(go.Scatter(x=dff['dt'], y=dff['Quantity'], name='Forecast', line=dict(color='green')))
-                   st.plotly_chart(fig) 
-    
-            if(largest_variable=='y'):
-                mod = sm.tsa.statespace.SARIMAX(df['Quantity'],order=sarima_order,seasonal_order=sarima_seasonal_order,
-                                                enforce_stationarity=False,enforce_invertibility=False)
-                best_model =mod.fit()
-                st.write('Sarima_MAPE: ',sarima_mape)
-    
-                if(d==range(0,1)):
-                   pred = best_model.fittedvalues
-                   res=mape(df['Quantity'],pred)
+                   #pred = pred.shift(periods=-1)
+                   res=mape(df['Quantity'][1:],pred[1:])
                    
     
                    dfa=df.reset_index()
@@ -240,38 +204,44 @@ if rad=='Weekly':
                 #dff=dff.drop(['Date'],axis=1)
     
                    fig = go.Figure()
-                   fig.add_trace(go.Scatter(x=dfa['dt'], y=dfa['Quantity'], name='Actual Quantity', line=dict(color='blue')))
-                   fig.add_trace(go.Scatter(x=dfp['dt'], y=dfp['Quantity'], name='Prediction', line=dict(color='orange')))
-                   fig.add_trace(go.Scatter(x=dff['dt'], y=dff['Quantity'], name='Forecast', line=dict(color='green')))
-                   st.plotly_chart(fig)
-                   
-                elif(d==range(1,2)):
-                   pred = best_model.fittedvalues
-                   pred = pred.shift(periods=-1)
-                   res=mape(df['Quantity'][:-1],pred[:-1])
-                   
-    
-                   dfa=df.reset_index()
-                #dfa.rename(columns={'dt':'Date','Quantity':'Actual Production'},inplace=True)
-    
-                   dfp=pd.DataFrame(pred)
-                   dfp=dfp.reset_index()
-                   dfp.rename(columns={0:'Quantity'},inplace=True)
-    
-                   fore=best_model.predict(start=(pd.Series(df.index[-2])[0])+ pd.DateOffset(weeks=1),end=(pd.Series(df.index[-2])[0])+ pd.DateOffset(weeks=4))
-                   fore_df=pd.DataFrame(data=fore.reset_index())
-                   fore_df=fore_df.rename(columns={'index':'dt','predicted_mean':'Quantity'})
-                   a=pd.DataFrame(pred.reset_index().iloc[-2]).T.rename(columns={0:'Quantity'}).reset_index(drop=True)
-                   dff=pd.concat([a,fore_df],ignore_index=True)
-                   dff['dt']=pd.to_datetime(dff['dt'])
-                #dff=dff.set_index(dff['Date'])
-                #dff=dff.drop(['Date'],axis=1)
-    
-                   fig = go.Figure()
-                   fig.add_trace(go.Scatter(x=dfa['dt'], y=dfa['Quantity'], name='Actual Quantity', line=dict(color='blue')))
-                   fig.add_trace(go.Scatter(x=dfp['dt'], y=dfp['Quantity'], name='Prediction', line=dict(color='orange')))
+                   fig.add_trace(go.Scatter(x=dfa['dt'][1:], y=dfa['Quantity'][1:], name='Actual Quantity', line=dict(color='blue')))
+                   fig.add_trace(go.Scatter(x=dfp['dt'][1:], y=dfp['Quantity'][1:], name='Prediction', line=dict(color='orange')))
                    fig.add_trace(go.Scatter(x=dff['dt'], y=dff['Quantity'], name='Forecast', line=dict(color='green')))
                    st.plotly_chart(fig) 
+    
+            if(largest_variable=='y'):
+                mod = sm.tsa.statespace.SARIMAX(df['Quantity'],order=sarima_order,seasonal_order=sarima_seasonal_order,
+                                                enforce_stationarity=False,enforce_invertibility=False)
+                best_model =mod.fit()
+                st.write('Sarima_MAPE: ',sarima_mape)
+    
+                
+                pred = best_model.fittedvalues
+                #pred = pred.shift(periods=-1)
+                res=mape(df['Quantity'][1:],pred[1:])
+               
+
+                dfa=df.reset_index()
+            #dfa.rename(columns={'dt':'Date','Quantity':'Actual Production'},inplace=True)
+
+                dfp=pd.DataFrame(pred)
+                dfp=dfp.reset_index()
+                dfp.rename(columns={0:'Quantity'},inplace=True)
+
+                fore=best_model.predict(start=(pd.Series(df.index[-1])[0])+ pd.DateOffset(weeks=1),end=(pd.Series(df.index[-1])[0])+ pd.DateOffset(weeks=4))
+                fore_df=pd.DataFrame(data=fore.reset_index())
+                fore_df=fore_df.rename(columns={'index':'dt','predicted_mean':'Quantity'})
+                a=pd.DataFrame(pred.reset_index().iloc[-1]).T.rename(columns={0:'Quantity'}).reset_index(drop=True)
+                dff=pd.concat([a,fore_df],ignore_index=True)
+                dff['dt']=pd.to_datetime(dff['dt'])
+            #dff=dff.set_index(dff['Date'])
+            #dff=dff.drop(['Date'],axis=1)
+
+                fig = go.Figure()
+                fig.add_trace(go.Scatter(x=dfa['dt'][1:], y=dfa['Quantity'][1:], name='Actual Quantity', line=dict(color='blue')))
+                fig.add_trace(go.Scatter(x=dfp['dt'][1:], y=dfp['Quantity'][1:], name='Prediction', line=dict(color='orange')))
+                fig.add_trace(go.Scatter(x=dff['dt'], y=dff['Quantity'], name='Forecast', line=dict(color='green')))
+                st.plotly_chart(fig) 
     
     
             if(largest_variable=='z'):
@@ -313,7 +283,8 @@ if rad=='Weekly':
             
             ff=pd.concat([dfobj_t,dfobj1_t])
             ff=pd.concat([ff,dfobj2_t])
-            st.write(ff.sort_values(by='mape').reset_index(drop=True)[:3])
+            g = ff.sort_values(by='mape').reset_index(drop=True)[:3]
+            st.dataframe(g)
 
 if rad=='Monthly':
 
@@ -365,20 +336,20 @@ if rad=='Monthly':
             #ARIMA
     
             for param in pdq:
-                try:
-                    arima_mod = ARIMA(df['Quantity'],order=param)
-                    best_model =arima_mod.fit()  
-                    if(d==range(0,1)):
-                        pred = best_model.fittedvalues
-                        res=mape(df['Quantity'],pred)
-                    elif(d==range(1,2)):
-                        pred = best_model.fittedvalues
-                        pred1 = pred.shift(periods=-1)
-                        res=mape(df['Quantity'][:-1],pred1[:-1])
-                    #dfobj=dfobj.append({'param':param,'mape':res},ignore_index=True)
-                    dfobj=pd.concat([dfobj,pd.DataFrame({'param':[param],'mape':[res]})]).reset_index(drop=True)
-                except:
-                    continue
+               try:
+                   arima_mod = ARIMA(df['Quantity'],order=param)
+                   best_model =arima_mod.fit()  
+                   if(d==range(0,1)):
+                       pred = best_model.fittedvalues
+                       res=mape(df['Quantity'],pred)
+                   elif(d==range(1,2)):
+                       pred = best_model.fittedvalues
+                       #pred1 = pred.shift(periods=-1)
+                       res=mape(df['Quantity'][1:],pred[1:])
+                   #dfobj=dfobj.append({'param':param,'mape':res},ignore_index=True)
+                   dfobj=pd.concat([dfobj,pd.DataFrame({'param':[param],'mape':[res]})]).reset_index(drop=True)
+               except:
+                   continue
             #SARIMA
     
             for param in pdq:
@@ -390,13 +361,10 @@ if rad=='Monthly':
                                                             enforce_stationarity=False,
                                                             enforce_invertibility=False)
                         best_model =mod.fit()   
-                        if(d==range(0,1)):
-                            pred = best_model.fittedvalues
-                            res=mape(df['Quantity'],pred)
-                        elif(d==range(1,2)):
-                            pred = best_model.fittedvalues
-                            pred1 = pred.shift(periods=-1)
-                            res=mape(df['Quantity'][:-1],pred1[:-1])
+                        
+                        pred = best_model.fittedvalues
+                        #pred1 = pred.shift(periods=-1)
+                        res=mape(df['Quantity'][1:],pred[1:])
                         #dfobj1 = dfobj1.append({'param':param,'seasonal':param_seasonal ,'mape': res}, ignore_index=True)
                         dfobj1=pd.concat([dfobj1,pd.DataFrame({'param':[param],'seasonal':[param_seasonal] ,'mape': [res]})]).reset_index(drop=True)
                     except:
@@ -468,8 +436,8 @@ if rad=='Monthly':
                    
                 elif(d==range(1,2)):
                    pred = best_model.fittedvalues
-                   pred = pred.shift(periods=-1)
-                   res=mape(df['Quantity'][:-1],pred[:-1])
+                   #pred = pred.shift(periods=-1)
+                   res=mape(df['Quantity'][1:],pred[1:])
                    
     
                    dfa=df.reset_index()
@@ -479,56 +447,54 @@ if rad=='Monthly':
                    dfp=dfp.reset_index()
                    dfp.rename(columns={0:'Quantity'},inplace=True)
     
-                   fore=best_model.predict(start=(pd.Series(df.index[-2])[0])+ pd.DateOffset(months=1),end=(pd.Series(df.index[-2])[0])+ pd.DateOffset(months=4))
+                   fore=best_model.predict(start=(pd.Series(df.index[-1])[0])+ pd.DateOffset(months=1),end=(pd.Series(df.index[-1])[0])+ pd.DateOffset(months=4))
                    fore_df=pd.DataFrame(data=fore.reset_index())
                    fore_df=fore_df.rename(columns={'index':'dt','predicted_mean':'Quantity'})
-                   a=pd.DataFrame(pred.reset_index().iloc[-2]).T.rename(columns={0:'Quantity'}).reset_index(drop=True)
+                   a=pd.DataFrame(pred.reset_index().iloc[-1]).T.rename(columns={0:'Quantity'}).reset_index(drop=True)
                    dff=pd.concat([a,fore_df],ignore_index=True)
                    dff['dt']=pd.to_datetime(dff['dt'])
                 #dff=dff.set_index(dff['Date'])
                 #dff=dff.drop(['Date'],axis=1)
     
                    fig = go.Figure()
-                   fig.add_trace(go.Scatter(x=dfa['dt'], y=dfa['Quantity'], name='Actual Quantity', line=dict(color='blue')))
-                   fig.add_trace(go.Scatter(x=dfp['dt'], y=dfp['Quantity'], name='Prediction', line=dict(color='orange')))
+                   fig.add_trace(go.Scatter(x=dfa['dt'][1:], y=dfa['Quantity'][1:], name='Actual Quantity', line=dict(color='blue')))
+                   fig.add_trace(go.Scatter(x=dfp['dt'][1:], y=dfp['Quantity'][1:], name='Prediction', line=dict(color='orange')))
                    fig.add_trace(go.Scatter(x=dff['dt'], y=dff['Quantity'], name='Forecast', line=dict(color='green')))
                    st.plotly_chart(fig) 
     
             if(largest_variable=='y'):
-                mod = sm.tsa.statespace.SARIMAX(df['Quantity'],order=sarima_order,seasonal_order=sarima_seasonal_order,
-                                                enforce_stationarity=False,enforce_invertibility=False)
-                best_model =mod.fit()
-                st.write('Sarima_MAPE: ',sarima_mape)
-    
-                
-                   
+               mod = sm.tsa.statespace.SARIMAX(df['Quantity'],order=sarima_order,seasonal_order=sarima_seasonal_order,
+                                               enforce_stationarity=False,enforce_invertibility=False)
+               best_model =mod.fit()
+               st.write('Sarima_MAPE: ',sarima_mape)
+   
                
-                pred = best_model.fittedvalues
-                pred = pred.shift(periods=-1)
-                res=mape(df['Quantity'][:-1],pred[:-1])
-               
+               pred = best_model.fittedvalues
+               #pred = pred.shift(periods=-1)
+               res=mape(df['Quantity'][1:],pred[1:])
+              
 
-                dfa=df.reset_index()
-            #dfa.rename(columns={'dt':'Date','Quantity':'Actual Production'},inplace=True)
+               dfa=df.reset_index()
+           #dfa.rename(columns={'dt':'Date','Quantity':'Actual Production'},inplace=True)
 
-                dfp=pd.DataFrame(pred)
-                dfp=dfp.reset_index()
-                dfp.rename(columns={0:'Quantity'},inplace=True)
+               dfp=pd.DataFrame(pred)
+               dfp=dfp.reset_index()
+               dfp.rename(columns={0:'Quantity'},inplace=True)
 
-                fore=best_model.predict(start=(pd.Series(df.index[-2])[0])+ pd.DateOffset(months=1),end=(pd.Series(df.index[-2])[0])+ pd.DateOffset(months=4))
-                fore_df=pd.DataFrame(data=fore.reset_index())
-                fore_df=fore_df.rename(columns={'index':'dt','predicted_mean':'Quantity'})
-                a=pd.DataFrame(pred.reset_index().iloc[-2]).T.rename(columns={0:'Quantity'}).reset_index(drop=True)
-                dff=pd.concat([a,fore_df],ignore_index=True)
-                dff['dt']=pd.to_datetime(dff['dt'])
-            #dff=dff.set_index(dff['Date'])
-            #dff=dff.drop(['Date'],axis=1)
+               fore=best_model.predict(start=(pd.Series(df.index[-1])[0])+ pd.DateOffset(months=1),end=(pd.Series(df.index[-1])[0])+ pd.DateOffset(months=4))
+               fore_df=pd.DataFrame(data=fore.reset_index())
+               fore_df=fore_df.rename(columns={'index':'dt','predicted_mean':'Quantity'})
+               a=pd.DataFrame(pred.reset_index().iloc[-1]).T.rename(columns={0:'Quantity'}).reset_index(drop=True)
+               dff=pd.concat([a,fore_df],ignore_index=True)
+               dff['dt']=pd.to_datetime(dff['dt'])
+           #dff=dff.set_index(dff['Date'])
+           #dff=dff.drop(['Date'],axis=1)
 
-                fig = go.Figure()
-                fig.add_trace(go.Scatter(x=dfa['dt'], y=dfa['Quantity'], name='Actual Quantity', line=dict(color='blue')))
-                fig.add_trace(go.Scatter(x=dfp['dt'], y=dfp['Quantity'], name='Prediction', line=dict(color='orange')))
-                fig.add_trace(go.Scatter(x=dff['dt'], y=dff['Quantity'], name='Forecast', line=dict(color='green')))
-                st.plotly_chart(fig) 
+               fig = go.Figure()
+               fig.add_trace(go.Scatter(x=dfa['dt'][1:], y=dfa['Quantity'][1:], name='Actual Quantity', line=dict(color='blue')))
+               fig.add_trace(go.Scatter(x=dfp['dt'][1:], y=dfp['Quantity'][1:], name='Prediction', line=dict(color='orange')))
+               fig.add_trace(go.Scatter(x=dff['dt'], y=dff['Quantity'], name='Forecast', line=dict(color='green')))
+               st.plotly_chart(fig) 
     
     
             if(largest_variable=='z'):
@@ -570,7 +536,8 @@ if rad=='Monthly':
             
             ff=pd.concat([dfobj_t,dfobj1_t])
             ff=pd.concat([ff,dfobj2_t])
-            st.write(ff.sort_values(by='mape').reset_index(drop=True)[:3])
+            g = ff.sort_values(by='mape').reset_index(drop=True)[:3]
+            st.dataframe(g)
 
  
 
