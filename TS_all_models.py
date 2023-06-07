@@ -672,7 +672,7 @@ if rad=='Monthly':
                 dfp=dfp.reset_index()
                 dfp.rename(columns={0:'Quantity'},inplace=True)
 
-                fore=best_model.predict(start=(pd.Series(df.index[-1])[0])+ pd.DateOffset(weeks=1),end=(pd.Series(df.index[-1])[0])+ pd.DateOffset(weeks=4))
+                fore=best_model.predict(start=(pd.Series(df.index[-1])[0])+ pd.DateOffset(months=1),end=(pd.Series(df.index[-1])[0])+ pd.DateOffset(months=4))
                 fore_df=pd.DataFrame(data=fore.reset_index())
                 fore_df=fore_df.rename(columns={'index':'dt','predicted_mean':'Quantity'})
                 a=pd.DataFrame(pred.reset_index().iloc[-1]).T.rename(columns={0:'Quantity'}).reset_index(drop=True)
@@ -703,7 +703,7 @@ if rad=='Monthly':
                 dfp=dfp.reset_index()
                 dfp.rename(columns={0:'Quantity'},inplace=True)
 
-                fore=best_model.predict(start=(pd.Series(df.index[-1])[0])+ pd.DateOffset(weeks=1),end=(pd.Series(df.index[-1])[0])+ pd.DateOffset(weeks=4))
+                fore=best_model.predict(start=(pd.Series(df.index[-1])[0])+ pd.DateOffset(months=1),end=(pd.Series(df.index[-1])[0])+ pd.DateOffset(months=4))
                 fore_df=pd.DataFrame(data=fore.reset_index())
                 fore_df=fore_df.rename(columns={'index':'dt','predicted_mean':'Quantity'})
                 a=pd.DataFrame(pred.reset_index().iloc[-1]).T.rename(columns={0:'Quantity'}).reset_index(drop=True)
@@ -734,7 +734,7 @@ if rad=='Monthly':
                 dfp=dfp.reset_index()
                 dfp.rename(columns={0:'Quantity'},inplace=True)
 
-                fore=best_model.predict(start=(pd.Series(df.index[-1])[0])+ pd.DateOffset(weeks=1),end=(pd.Series(df.index[-1])[0])+ pd.DateOffset(weeks=4))
+                fore=best_model.predict(start=(pd.Series(df.index[-1])[0])+ pd.DateOffset(months=1),end=(pd.Series(df.index[-1])[0])+ pd.DateOffset(months=4))
                 fore_df=pd.DataFrame(data=fore.reset_index())
                 fore_df=fore_df.rename(columns={'index':'dt','predicted_mean':'Quantity'})
                 a=pd.DataFrame(pred.reset_index().iloc[-1]).T.rename(columns={0:'Quantity'}).reset_index(drop=True)
