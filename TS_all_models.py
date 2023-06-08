@@ -574,7 +574,7 @@ if rad=='Monthly':
     
             pdq = list(itertools.product(p, d, q))
             
-            z = (6,12)
+            z = (4,6)
     
             a = [[(x[0],x[1],x[2],m)             for m in z         if(m>x[0]  and m>x[2]) ]       for x in list(pdq)]
     
