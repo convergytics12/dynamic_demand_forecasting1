@@ -140,8 +140,8 @@ if rad=='Weekly':
                 
             ####ARIMA & SARIMA Order#########
     
-            p = range(0,7)
-            q = range(0,7)
+            p = range(0,5)
+            q = range(0,5)
             result = adfuller(df)
             if(result[1]<0.05):
                 d = range(0,1)
@@ -150,7 +150,7 @@ if rad=='Weekly':
     
             pdq = list(itertools.product(p, d, q))
     
-            a = [[(x[0],x[1],x[2],m)             for m in range(2,7,1)         if(m>x[0]  and m>x[2]) ]       for x in list(pdq)]
+            a = [[(x[0],x[1],x[2],m)             for m in range(2,6,2)         if(m>x[0]  and m>x[2]) ]       for x in list(pdq)]
     
             model_pdq = [item for sublist in a for item in sublist]
     
