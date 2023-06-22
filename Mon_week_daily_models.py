@@ -59,11 +59,6 @@ if rad=='Weekly':
     for i in uploaded_files:
         if(i.name==selected_file):
             df1 = pd.read_excel(i)
-            df1.to_parquet('output_file.parquet')
-
-# Read the Parquet file into a DataFrame
-            df1 = pd.read_parquet('output_file.parquet')
-            
             
             
             if(len(df1.columns)>2):
