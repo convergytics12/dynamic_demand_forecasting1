@@ -61,10 +61,8 @@ if rad=='Weekly':
         for i in uploaded_files:
             if(i.name==selected_file):
                 df1 = pd.read_excel(i)
-                
-               
-                
-                if(len(df1.columns)>2):
+                c_box=st.checkbox('Exog_Variable')
+                if(c_box==True):
                     date=st.selectbox('**Select the date column**',['Select an option']+list(df1.columns))
                     target=st.selectbox('**Select the target column**',['Select an option']+list(df1.columns))   
                     exog=st.multiselect('**Select the exog column**',['Select an option']+list(df1.columns))
@@ -728,15 +726,19 @@ if rad=='Monthly':
         for i in uploaded_files:
             if(i.name==selected_file):
                 df = pd.read_excel(i)
-                date=st.selectbox('**Select the date column**',['Select an option']+list(df.columns))
-                target=st.selectbox('**Select the target column**',['Select an option']+list(df.columns))
-                fore_period=st.selectbox("Select the number of forecasting months:", ['',3,6])
-                fore_period=int(fore_period)
+                c_box_m=st.checkbox('Exog_Variable')
                 
-                if(len(df.columns)>2):
-                       
+                
+                
+                if(c_box_m==True):
+                    
+                    date=st.selectbox('**Select the date column**',['Select an option']+list(df.columns))
+                    target=st.selectbox('**Select the target column**',['Select an option']+list(df.columns))
                     exog=st.multiselect('**Select the exog column**',['Select an option']+list(df.columns))
                     
+                    fore_period=st.selectbox("Select the number of forecasting months:", ['',3,6])
+                    fore_period=int(fore_period)
+        
                     exog_var=[]
         
                     for i in range(len(exog)):
@@ -1131,6 +1133,12 @@ if rad=='Monthly':
                     
                 else:
                     
+                    
+                    date=st.selectbox('**Select the date column**',['Select an option']+list(df.columns))
+                    target=st.selectbox('**Select the target column**',['Select an option']+list(df.columns))
+                    fore_period=st.selectbox("Select the number of forecasting months:", ['',3,6])
+                    fore_period=int(fore_period)
+                    
                     try:
                         df.rename(columns={date:'dt',target:'Quantity'},inplace=True)
                         df['dt']=pd.to_datetime(df['dt'])
@@ -1142,7 +1150,7 @@ if rad=='Monthly':
                     #df['Quantity'] = df1['Quantity']
             
                  
-            
+                    
                     p = range(1,5)
                     q = range(1,5)
                     result = adfuller(df['Quantity'])
@@ -1393,14 +1401,19 @@ if rad=='Daily':
         for i in uploaded_files:
             if(i.name==selected_file):
                 df = pd.read_excel(i)
-                date=st.selectbox('**Select the date column**',list(df.columns))
-                target=st.selectbox('**Select the target column**',list(df.columns))
-                fore_period=st.selectbox("Select the number of forecasting days:", ['',5,10])
-                fore_period=int(fore_period)
+                c_box_d=st.checkbox('Exog Variable')
                 
-                if(len(df.columns)>2):
-                      
+                
+                if(c_box_d==True):
+                    
+                    date=st.selectbox('**Select the date column**',list(df.columns))
+                    target=st.selectbox('**Select the target column**',list(df.columns))
                     exog=st.multiselect('**Select the exog column**',list(df.columns))
+                    
+                    fore_period=st.selectbox("Select the number of forecasting days:", ['',5,10])
+                    fore_period=int(fore_period)
+                      
+                    
                     
                     exog_var=[]
         
@@ -1820,6 +1833,11 @@ if rad=='Daily':
                         st.stop()
                     
                 else:
+                    
+                    date=st.selectbox('**Select the date column**',list(df.columns))
+                    target=st.selectbox('**Select the target column**',list(df.columns))
+                    fore_period=st.selectbox("Select the number of forecasting days:", ['',5,10])
+                    fore_period=int(fore_period)
                    
                     try:
                         df.rename(columns={date:'dt',target:'Quantity'},inplace=True)
