@@ -1406,9 +1406,9 @@ if rad=='Daily':
                 
                 if(c_box_d==True):
                     
-                    date=st.selectbox('**Select the date column**',list(df.columns))
-                    target=st.selectbox('**Select the target column**',list(df.columns))
-                    exog=st.multiselect('**Select the exog column**',list(df.columns))
+                    date=st.selectbox('**Select the date column**',['Select an option']+list(df.columns))
+                    target=st.selectbox('**Select the target column**',['Select an option']+list(df.columns))
+                    exog=st.multiselect('**Select the exog column**',['Select an option']+list(df.columns))
                     
                     fore_period=st.selectbox("Select the number of forecasting days:", ['',5,10])
                     fore_period=int(fore_period)
@@ -1834,8 +1834,9 @@ if rad=='Daily':
                     
                 else:
                     
-                    date=st.selectbox('**Select the date column**',list(df.columns))
-                    target=st.selectbox('**Select the target column**',list(df.columns))
+                    date=st.selectbox('**Select the date column**',['Select an option']+list(df.columns))
+                    target=st.selectbox('**Select the target column**',['Select an option']+list(df.columns))
+                    
                     fore_period=st.selectbox("Select the number of forecasting days:", ['',5,10])
                     fore_period=int(fore_period)
                    
