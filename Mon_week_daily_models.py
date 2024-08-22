@@ -81,12 +81,23 @@ if rad=='Weekly':
                     if file1 is not None:
                         df_exog=pd.read_excel(file1,engine="openpyxl")
                 
+                    #try:
+                        #df1.rename(columns={date:'dt',target:'Quantity'},inplace=True)
+                        #df1['dt']=pd.to_datetime(df1['dt'])
+                        #df1 = df1.set_index('dt')
+                    #except:
+                        #pass
                     try:
-                        df1.rename(columns={date:'dt',target:'Quantity'},inplace=True)
-                        df1['dt']=pd.to_datetime(df1['dt'])
+                        df1.rename(columns={date:'dt', target:'Quantity'}, inplace=True)
+                        df1['dt'] = pd.to_datetime(df1['dt'])
                         df1 = df1.set_index('dt')
-                    except:
-                        pass
+                    except KeyError as e:
+                        print(f"KeyError: {e}")
+                    except ValueError as e:
+                        print(f"ValueError: {e}")
+                    except Exception as e:
+                        print(f"Unexpected error: {e}")
+
                 
                     fw = df1['dt'] + '-1'
                     dt = pd.to_datetime(fw, format='%Y-%W-%w', errors='coerce')
