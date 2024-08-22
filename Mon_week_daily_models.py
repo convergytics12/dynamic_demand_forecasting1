@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 import pandas                             as      pd
 import numpy                              as      np
-import matplotlib.pyplot                  as      plt
+#import matplotlib.pyplot                  as      plt
 import seaborn                            as      sns
 from   datetime                           import  datetime, timedelta
 from statsmodels.tsa.api import ExponentialSmoothing
@@ -21,7 +21,7 @@ import time
 import statsmodels.api as sm
 import itertools
 import plotly.graph_objects as go
-st.set_option('deprecation.showPyplotGlobalUse', False)
+#st.set_option('deprecation.showPyplotGlobalUse', False)
 np.seterr(divide='ignore', invalid='ignore')
 
 def mape(y_true, y_pred): 
